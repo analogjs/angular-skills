@@ -32,6 +32,7 @@ Give the GitHub repo a ⭐️!
 | [angular-http](skills/angular-http) | Data fetching with `httpResource()`, `resource()`, HttpClient, and functional interceptors |
 | [angular-routing](skills/angular-routing) | Routing with lazy loading, functional guards/resolvers, and signal-based route parameters |
 | [angular-signals](skills/angular-signals) | Reactive state with `signal()`, `computed()`, `linkedSignal()`, `effect()`, and RxJS interop |
+| [angular-microfrontend](skills/angular-microfrontend) | Microfrontend architectures: Module Federation, Web Components, import maps, and runtime composition |
 | [angular-ssr](skills/angular-ssr) | Server-side rendering, incremental hydration, prerendering, and browser-only code patterns |
 | [angular-testing](skills/angular-testing) | Testing with TestBed, component harnesses, signal testing, and OnPush component testing |
 | [angular-tooling](skills/angular-tooling) | Angular CLI commands, code generation, build configuration, and workspace setup |
