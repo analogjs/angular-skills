@@ -310,7 +310,7 @@ form.statusChanges.subscribe(status => {
 });
 ```
 
-### Unified Events (Angular v21+)
+### Unified Events (Angular v18+)
 
 ```typescript
 import { 
