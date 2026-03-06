@@ -149,6 +149,24 @@ ng build -c production --source-map=false
 ng build -c production --named-chunks
 ```
 
+### Verify Build Success
+
+After a build completes, confirm the output is valid:
+
+```bash
+# Check dist/ output exists and contains expected files
+ls dist/my-app/browser/
+
+# Confirm no budget errors — look for these in build output:
+# ✔ Browser application bundle generation complete
+# ✗ Error: bundle initial exceeded maximum budget — reduce chunk sizes or raise budgets in angular.json
+```
+
+Common build failures:
+- **Budget exceeded**: Increase `maximumWarning`/`maximumError` in `angular.json` budgets, or reduce bundle size via lazy loading.
+- **TypeScript errors**: Fix reported type errors before retrying; use `ng build --no-optimization` to isolate issues.
+- **Missing assets**: Verify asset paths in `angular.json` `assets` array match the actual file locations.
+
 ### Build Output
 
 ```
@@ -319,6 +337,20 @@ ng update --all
 # Force update (skip peer dependency checks)
 ng update @angular/core @angular/cli --force
 ```
+
+### Verify Update Success
+
+After running `ng update`, confirm the project still builds and tests pass:
+
+```bash
+ng build
+ng test --watch=false --browsers=ChromeHeadless
+```
+
+Common update failures:
+- **Peer dependency conflicts**: Run `ng update @angular/core @angular/cli --force` only as a last resort; prefer resolving conflicts manually in `package.json` first.
+- **Migration errors mid-run**: Check the output for failed migration schematics, review the reported file changes, revert with `git checkout` if needed, and re-run after fixing the root cause.
+- **Breaking API changes**: Consult the Angular update guide at https://update.angular.io for version-specific migration notes and manual steps.
 
 ## Performance Analysis
 

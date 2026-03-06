@@ -7,6 +7,16 @@ description: Implement routing in Angular v20+ applications with lazy loading, f
 
 Configure routing in Angular v20+ with lazy loading, functional guards, and signal-based route parameters.
 
+## Setup Workflow
+
+When adding routing to a new app, follow this sequence:
+
+1. **Create routes file** — define all top-level routes in `app.routes.ts`
+2. **Configure `app.config.ts`** — register routes via `provideRouter(routes)`
+3. **Add `RouterOutlet` to the root component** — gives the router a render target
+4. **Add navigation links** — use `routerLink` and `routerLinkActive` in the template
+5. **Verify** — navigate between routes in the browser and confirm the URL updates and the correct component renders
+
 ## Basic Setup
 
 ```typescript
@@ -191,6 +201,8 @@ export const authGuard: CanActivateFn = (route, state) => {
 }
 ```
 
+**Verify:** Access the protected route while logged out — the browser should redirect to `/login` with a `returnUrl` query param. Access while logged in — the component should render normally.
+
 ### Role Guard
 
 ```typescript
@@ -216,6 +228,8 @@ export const roleGuard = (allowedRoles: string[]): CanActivateFn => {
   canActivate: [authGuard, roleGuard(['admin', 'superadmin'])],
 }
 ```
+
+**Verify:** Access the route with an insufficient role — should redirect to `/unauthorized`. Access with an allowed role — component should render.
 
 ### Can Deactivate Guard
 

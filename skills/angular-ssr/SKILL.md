@@ -432,4 +432,74 @@ app.listen(4000, () => {
 });
 ```
 
+## Troubleshooting
+
+### Hydration Mismatches
+
+Angular logs hydration errors to the browser console when the server-rendered DOM does not match what the client renders.
+
+**Enable verbose hydration debugging:**
+
+```typescript
+// main.ts (temporary, development only)
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig).catch(err => console.error(err));
+```
+
+Run the app and check the browser console for messages like:
+```
+NG0500: During hydration Angular expected <div> but found <p>
+NG0501: During hydration Angular expected text node but found element
+```
+
+**Common causes and fixes:**
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `NG0500` / `NG0501` errors | Server and client render different DOM | Guard browser-only DOM mutations behind `isPlatformBrowser()` or `afterNextRender()` |
+| Missing or extra nodes | Conditional logic differs server vs. client | Ensure initial state (e.g. `Date.now()`, random values) is consistent or deferred to client |
+| Third-party component errors | Library directly manipulates DOM on init | Wrap component in `@defer (hydrate on interaction)` or skip hydration with `ngSkipHydration` |
+
+**Skip hydration for a specific component** (last resort when a component cannot be made SSR-compatible):
+
+```typescript
+@Component({
+  selector: 'app-problematic',
+  template: `...`,
+  host: { ngSkipHydration: 'true' },
+})
+export class ProblematicComponent {}
+```
+
+**Verify → Fix → Retry workflow:**
+1. Open DevTools console — note the `NG05xx` error code and the element path.
+2. Locate the component responsible for that element.
+3. Apply the appropriate fix (platform guard, `afterNextRender`, `ngSkipHydration`).
+4. Rebuild (`ng build`) and re-serve; confirm the error is gone before moving on.
+
+### Build Failures
+
+**Server bundle references browser globals (`window`, `document`, `localStorage`):**
+
+```
+ReferenceError: window is not defined
+```
+
+1. **Verify** — search the server bundle error stack for the file and line.
+2. **Fix** — replace direct access with a platform-safe token (see `WINDOW` / `LOCAL_STORAGE` tokens above) or guard with `isPlatformBrowser()`.
+3. **Retry** — run `ng build` and confirm the error is resolved.
+
+**Prerender fails for a dynamic route:**
+
+```
+Error: Could not find parameters for route 'products/:id'
+```
+
+1. **Verify** — check that `getPrerenderParams` returns an array covering all expected IDs.
+2. **Fix** — ensure the fetch inside `getPrerenderParams` succeeds at build time (correct URL, credentials, network access); add a `fallback` to handle gaps.
+3. **Retry** — run `ng build` and confirm prerendered files appear under `dist/my-app/browser/products/`.
+
 For advanced patterns, see [references/ssr-patterns.md](references/ssr-patterns.md).

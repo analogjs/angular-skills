@@ -1,6 +1,6 @@
 ---
 name: angular-testing
-description: Write unit and integration tests for Angular v20+ applications using Vitest or Jasmine with TestBed and modern testing patterns. Use for testing components with signals, OnPush change detection, services with inject(), and HTTP interactions. Triggers on test creation, testing signal-based components, mocking dependencies, or setting up test infrastructure. Don't use for E2E testing with Cypress or Playwright, or for testing non-Angular JavaScript/TypeScript code.
+description: Write unit and integration tests for Angular v20+ applications using Vitest or Jasmine with TestBed and modern testing patterns. Use when testing components with signals, OnPush change detection, services with inject(), and HTTP interactions. Triggers on test creation, testing signal-based components, mocking dependencies, or setting up test infrastructure. Don't use for E2E testing with Cypress or Playwright, or for testing non-Angular JavaScript/TypeScript code.
 ---
 
 # Angular Testing
@@ -42,6 +42,25 @@ ng test              # Run tests
 ng test --watch      # Watch mode
 ng test --code-coverage  # With coverage
 ```
+
+### Setup Verification & Common Issues
+
+After setup, confirm tests are discovered and running correctly before writing more tests:
+
+```bash
+ng test --reporter=verbose  # See individual test names to confirm discovery
+```
+
+**If tests fail unexpectedly, check these first:**
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| Template changes not reflected | Missing `fixture.detectChanges()` | Call `detectChanges()` after every state/input change |
+| Signal value stale in template | Signal updated but CD not triggered | Call `fixture.detectChanges()` after `signal.set()` / `signal.update()` |
+| `NullInjectorError` | Provider missing from `TestBed` | Add the service or a mock via `providers: [...]` |
+| `No component factory found` | Non-standalone component not declared | Add to `declarations` or import its owning `NgModule` |
+| Async assertion never runs | `waitForAsync` / `fakeAsync` timing off | Use `tick()`, `flush()`, or `fixture.whenStable()` appropriately |
+| HTTP request never matched | Wrong URL or method in `expectOne()` | Log `httpMock.match(...)` to inspect pending requests |
 
 For Vitest migration from Jasmine and advanced configuration, see [references/vitest-migration.md](references/vitest-migration.md).
 

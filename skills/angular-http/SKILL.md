@@ -7,6 +7,17 @@ description: Implement HTTP data fetching in Angular v20+ using resource(), http
 
 Fetch data in Angular using signal-based `resource()`, `httpResource()`, and the traditional `HttpClient`.
 
+## Choosing the Right Approach
+
+| Scenario | Use |
+|---|---|
+| HTTP GET/POST/PUT/PATCH/DELETE with reactive signals | `httpResource()` |
+| Non-HTTP async (e.g., IndexedDB, WebSockets, custom fetch) | `resource()` |
+| Observable operators (retry, debounce, combineLatest) or complex pipelines | `HttpClient` |
+| Migrating existing Observable-based code incrementally | `HttpClient` + `toSignal()` |
+
+**Default to `httpResource()`** for standard REST calls in new code. Fall back to `resource()` when the loader isn't HTTP, and `HttpClient` when you need full RxJS operator power.
+
 ## httpResource() - Signal-Based HTTP
 
 `httpResource()` wraps HttpClient with signal-based state management:
@@ -311,6 +322,11 @@ export class UserCmpt {
 }
 ```
 
+**Error recovery validation:**
+- **401 persists after retry** → token is expired or missing; verify `authInterceptor` is attached and `authService.token()` returns a valid value.
+- **CORS errors (0 status)** → the error is a network/preflight failure, not an API error; check server CORS headers rather than retrying.
+- **Resource stays in `'error'` state** → call `userResource.reload()` only after correcting the underlying cause (e.g., restoring network, refreshing credentials).
+
 ### With HttpClient
 
 ```typescript
@@ -326,6 +342,10 @@ getUser(id: string) {
   );
 }
 ```
+
+**Error recovery validation:**
+- **401 after retries** → check token expiration before retrying; consider refreshing the token in the interceptor instead of blindly retrying.
+- **Retries amplify 4xx errors** → only retry on transient failures (5xx, network timeouts); add `retry({ count: 2, delay: (err) => err.status >= 500 ? timer(1000) : throwError(() => err) })` to avoid retrying client errors.
 
 ## Loading States Pattern
 

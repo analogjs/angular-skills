@@ -9,6 +9,16 @@ Build type-safe, reactive forms using Angular's Signal Forms API. Signal Forms p
 
 **Note:** Signal Forms are experimental in Angular v21. For production apps requiring stability, see [references/form-patterns.md](references/form-patterns.md) for Reactive Forms patterns.
 
+## Recommended Workflow
+
+Follow this sequence when building a new form:
+
+1. **Define interface** — declare a TypeScript interface for the form data shape
+2. **Create model signal** — initialise a writable signal with default values
+3. **Add validation schema** — pass a schema callback to `form()` with validators
+4. **Wire up template** — bind fields with `[formField]`, show errors conditionally
+5. **Handle submission** — use `submit()` to mark fields touched and run the callback only when valid
+
 ## Basic Setup
 
 ```typescript
@@ -310,6 +320,8 @@ const accountForm = form(this.accountModel, (schemaPath) => {
 
 ## Form Submission
 
+`submit()` marks all fields as touched and runs the callback only when the form is valid.
+
 ```typescript
 import { submit } from '@angular/forms/signals';
 
@@ -318,6 +330,9 @@ import { submit } from '@angular/forms/signals';
     <form (submit)="onSubmit($event)">
       <input [formField]="form.email" />
       <input [formField]="form.password" />
+      @if (serverError()) {
+        <p class="error">{{ serverError() }}</p>
+      }
       <button type="submit" [disabled]="form().invalid()">Submit</button>
     </form>
   `,
@@ -328,13 +343,54 @@ export class Login {
     required(schemaPath.email);
     required(schemaPath.password);
   });
+  serverError = signal<string | null>(null);
   
   onSubmit(event: Event) {
     event.preventDefault();
     
     // submit() marks all fields touched and runs callback if valid
     submit(this.form, async () => {
-      await this.authService.login(this.model());
+      this.serverError.set(null);
+      try {
+        await this.authService.login(this.model());
+      } catch (err) {
+        // Display server-side or network errors returned by the API
+        this.serverError.set(
+          err instanceof Error ? err.message : 'Login failed. Please try again.'
+        );
+      }
+    });
+  }
+}
+```
+
+### Server-Side Validation Errors
+
+When an API returns field-level validation errors, surface them by injecting them into the field's error state using a custom validator that reads from a signal:
+
+```typescript
+export class Signup {
+  model = signal({ username: '', email: '' });
+  apiErrors = signal<Record<string, string>>({});
+
+  form = form(this.model, (schemaPath) => {
+    required(schemaPath.username);
+    // Merge server-side errors into field validation
+    validate(schemaPath.username, () => {
+      const msg = this.apiErrors().username;
+      return msg ? { kind: 'server', message: msg } : null;
+    });
+  });
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    submit(this.form, async () => {
+      try {
+        await this.api.signup(this.model());
+      } catch (err) {
+        // Populate server errors; validators will re-run reactively
+        this.apiErrors.set(err.fieldErrors ?? {});
+      }
     });
   }
 }
