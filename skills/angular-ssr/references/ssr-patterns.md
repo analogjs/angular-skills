@@ -415,7 +415,7 @@ export class ProductPage {}
 export const serverRoutes: ServerRoute[] = [
   {
     path: 'products/:id',
-    renderMode: RenderMode.Server,
+    renderMode: RenderMode.Prerender,
     async getPrerenderParams() {
       // Prerender top 100 products
       const topProducts = await fetchTopProducts(100);
