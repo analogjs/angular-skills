@@ -7,8 +7,13 @@ description: DEPRECATED - this skill is unmaintained. Use the official Angular s
 
 > **⚠️ Deprecated.** This skill is no longer maintained. The Angular team now
 > publishes official skills at [angular/skills](https://github.com/angular/skills)
-> — use those instead. To remove these:
-> `npx skills remove analogjs/angular-skills`
+> — install those instead:
+>
+> ```sh
+> npx skills add https://github.com/angular/skills
+> ```
+>
+> To remove these: `npx skills remove analogjs/angular-skills`
 
 Create standalone components for Angular v20+. Components are standalone by default—do NOT set `standalone: true`.
 

@@ -8,6 +8,14 @@ If you have previously installed these skills, you can remove them before instal
 npx skills remove analogjs/angular-skills
 ```
 
+## Installing the Official Skills
+
+Install the official Angular skills with:
+
+```sh
+npx skills add https://github.com/angular/skills
+```
+
 ## Resources
 
 - [Angular Documentation](https://angular.dev)
