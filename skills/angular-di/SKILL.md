@@ -1,9 +1,14 @@
 ---
 name: angular-di
-description: Implement dependency injection in Angular v20+ using inject(), injection tokens, and provider configuration. Use for service architecture, providing dependencies at different levels, creating injectable tokens, and managing singleton vs scoped services. Triggers on service creation, configuring providers, using injection tokens, or understanding DI hierarchy.
+description: DEPRECATED - this skill is unmaintained. Use the official Angular skills at https://github.com/angular/skills instead. Implement dependency injection in Angular v20+ using inject(), injection tokens, and provider configuration. Use for service architecture, providing dependencies at different levels, creating injectable tokens, and managing singleton vs scoped services. Triggers on service creation, configuring providers, using injection tokens, or understanding DI hierarchy.
 ---
 
 # Angular Dependency Injection
+
+> **⚠️ Deprecated.** This skill is no longer maintained. The Angular team now
+> publishes official skills at [angular/skills](https://github.com/angular/skills)
+> — use those instead. To remove these:
+> `npx skills remove analogjs/angular-skills`
 
 Configure and use dependency injection in Angular v20+ with `inject()` and providers.
 

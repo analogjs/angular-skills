@@ -1,9 +1,14 @@
 ---
 name: angular-ssr
-description: Implement server-side rendering and hydration in Angular v20+ using @angular/ssr. Use for SSR setup, hydration strategies, prerendering static pages, and handling browser-only APIs. Triggers on SSR configuration, fixing hydration mismatches, prerendering routes, or making code SSR-compatible.
+description: DEPRECATED - this skill is unmaintained. Use the official Angular skills at https://github.com/angular/skills instead. Implement server-side rendering and hydration in Angular v20+ using @angular/ssr. Use for SSR setup, hydration strategies, prerendering static pages, and handling browser-only APIs. Triggers on SSR configuration, fixing hydration mismatches, prerendering routes, or making code SSR-compatible.
 ---
 
 # Angular SSR
+
+> **⚠️ Deprecated.** This skill is no longer maintained. The Angular team now
+> publishes official skills at [angular/skills](https://github.com/angular/skills)
+> — use those instead. To remove these:
+> `npx skills remove analogjs/angular-skills`
 
 Implement server-side rendering, hydration, and prerendering in Angular v20+.
 

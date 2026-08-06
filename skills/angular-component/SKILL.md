@@ -1,9 +1,14 @@
 ---
 name: angular-component
-description: Create modern Angular standalone components following v20+ best practices. Use for building UI components with signal-based inputs/outputs, OnPush change detection, host bindings, content projection, and lifecycle hooks. Triggers on component creation, refactoring class-based inputs to signals, adding host bindings, or implementing accessible interactive components.
+description: DEPRECATED - this skill is unmaintained. Use the official Angular skills at https://github.com/angular/skills instead. Create modern Angular standalone components following v20+ best practices. Use for building UI components with signal-based inputs/outputs, OnPush change detection, host bindings, content projection, and lifecycle hooks. Triggers on component creation, refactoring class-based inputs to signals, adding host bindings, or implementing accessible interactive components.
 ---
 
 # Angular Component
+
+> **⚠️ Deprecated.** This skill is no longer maintained. The Angular team now
+> publishes official skills at [angular/skills](https://github.com/angular/skills)
+> — use those instead. To remove these:
+> `npx skills remove analogjs/angular-skills`
 
 Create standalone components for Angular v20+. Components are standalone by default—do NOT set `standalone: true`.
 

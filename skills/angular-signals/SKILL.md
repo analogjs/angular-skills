@@ -1,9 +1,14 @@
 ---
 name: angular-signals
-description: Implement signal-based reactive state management in Angular v20+. Use for creating reactive state with signal(), derived state with computed(), dependent state with linkedSignal(), and side effects with effect(). Triggers on state management questions, converting from BehaviorSubject/Observable patterns to signals, or implementing reactive data flows.
+description: DEPRECATED - this skill is unmaintained. Use the official Angular skills at https://github.com/angular/skills instead. Implement signal-based reactive state management in Angular v20+. Use for creating reactive state with signal(), derived state with computed(), dependent state with linkedSignal(), and side effects with effect(). Triggers on state management questions, converting from BehaviorSubject/Observable patterns to signals, or implementing reactive data flows.
 ---
 
 # Angular Signals
+
+> **⚠️ Deprecated.** This skill is no longer maintained. The Angular team now
+> publishes official skills at [angular/skills](https://github.com/angular/skills)
+> — use those instead. To remove these:
+> `npx skills remove analogjs/angular-skills`
 
 Signals are Angular's reactive primitive for state management. They provide synchronous, fine-grained reactivity.
 

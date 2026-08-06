@@ -1,9 +1,14 @@
 ---
 name: angular-http
-description: Implement HTTP data fetching in Angular v20+ using resource(), httpResource(), and HttpClient. Use for API calls, data loading with signals, request/response handling, and interceptors. Triggers on data fetching, API integration, loading states, error handling, or converting Observable-based HTTP to signal-based patterns.
+description: DEPRECATED - this skill is unmaintained. Use the official Angular skills at https://github.com/angular/skills instead. Implement HTTP data fetching in Angular v20+ using resource(), httpResource(), and HttpClient. Use for API calls, data loading with signals, request/response handling, and interceptors. Triggers on data fetching, API integration, loading states, error handling, or converting Observable-based HTTP to signal-based patterns.
 ---
 
 # Angular HTTP & Data Fetching
+
+> **⚠️ Deprecated.** This skill is no longer maintained. The Angular team now
+> publishes official skills at [angular/skills](https://github.com/angular/skills)
+> — use those instead. To remove these:
+> `npx skills remove analogjs/angular-skills`
 
 Fetch data in Angular using signal-based `resource()`, `httpResource()`, and the traditional `HttpClient`.
 
